@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Crush Letter Generator</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(to bottom, #fff0f6, #fef6f9);
+        margin: 0;
+        padding: 20px;
+        color: #4a4a68;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+      }
+      h1 {
+        color: #d46a6a;
+        margin-bottom: 10px;
+        font-weight: 700;
+        text-align: center;
+      }
+      .container {
+        background: #fff0f6;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 6px 18px rgba(212, 106, 106, 0.25);
+        max-width: 460px;
+        width: 100%;
+        position: relative;
+        z-index: 2;
+        transition: transform 0.3s ease;
+      }
+      .container:hover {
+        transform: scale(1.01);
+      }
+      label {
+        font-weight: 600;
+        display: block;
+        margin-top: 18px;
+        margin-bottom: 6px;
+      }
+      select,
+      textarea,
+      input[type="text"] {
+        width: 100%;
+        padding: 12px 14px;
+        border: 2px solid #f3c6c6;
+        border-radius: 12px;
+        font-size: 1rem;
+        resize: vertical;
+        transition: border-color 0.3s ease;
+        font-family: "Poppins", sans-serif;
+      }
+      select:focus,
+      textarea:focus,
+      input[type="text"]:focus {
+        border-color: #d46a6a;
+        outline: none;
+      }
+      button {
+        margin-top: 24px;
+        background: #d46a6a;
+        color: white;
+        border: none;
+        padding: 14px 0;
+        font-size: 1.1rem;
+        font-weight: 700;
+        border-radius: 14px;
+        cursor: pointer;
+        width: 100%;
+        transition: background-color 0.3s ease;
+      }
+      button:hover {
+        background: #b54d4d;
+      }
+      .result {
+        margin-top: 30px;
+        padding: 18px 22px;
+        background: #ffe6e6;
+        border-radius: 14px;
+        min-height: 130px;
+        white-space: pre-wrap;
+        color: #7a4343;
+        font-style: italic;
+        line-height: 1.6;
+      }
+      .music-toggle {
+        margin-top: 18px;
+        text-align: center;
+        font-size: 0.95rem;
+      }
+      .stars {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+      }
+      .star,
+      .twinkle {
+        position: absolute;
+        border-radius: 50%;
+      }
+      .star {
+        width: 10px;
+        height: 10px;
+        background: #ffd5ec;
+        animation: fall linear infinite;
+      }
+      .twinkle {
+        width: 4px;
+        height: 4px;
+        background: #ffe6f2;
+        animation: twinkle 3s ease-in-out infinite;
+        opacity: 0.6;
+      }
+      @keyframes fall {
+        from {
+          transform: translateY(-10px);
+          opacity: 1;
+        }
+        to {
+          transform: translateY(100vh);
+          opacity: 0;
+        }
+      }
+      @keyframes twinkle {
+        0%, 100% {
+          opacity: 0.2;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+      .moon {
+        position: fixed;
+        bottom: -60px;
+        right: 30px;
+        font-size: 48px;
+        animation: rise 10s ease-in-out forwards;
+        z-index: 1;
+      }
+      @keyframes rise {
+        to {
+          bottom: 30px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>AI Crush Letter Generator 💌</h1>
+    <div class="container">
+      <label for="crushName">Nama Crush Kamu</label>
+      <input type="text" id="crushName" placeholder="Misal: Azriel" />
+
+      <label for="mood">Pilih Mood Kamu</label>
+      <select id="mood">
+        <option value="sweet">Sweet & Manis</option>
+        <option value="funny">Lucu & Santai</option>
+        <option value="nervous">Nervous & Grogi</option>
+        <option value="romantic">Romantis & Baper</option>
+        <option value="surprise">Surprise Me!</option>
+      </select>
+
+      <label for="keywords">Masukkan Kata Kunci (optional)</label>
+      <textarea
+        id="keywords"
+        rows="3"
+        placeholder="Misal: senyumnya, matanya, cara dia ngomong..."
+      ></textarea>
+
+      <button id="generateBtn">💖 Generate Surat Cinta</button>
+
+      <div class="result" id="result">
+        Surat cinta kamu bakal muncul di sini...
+      </div>
+
+      <div class="music-toggle">
+        <label><input type="checkbox" id="musicCheckbox" /> 🎵 Mainkan Musik Latar</label>
+      </div>
+    </div>
+
+    <div class="stars" id="stars"></div>
+    <div class="moon">🌙</div>
+
+    <audio id="bgMusic" loop>
+      <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_8c4c6d1260.mp3" type="audio/mp3" />
+    </audio>
+
+    <script>
+      const generateBtn = document.getElementById("generateBtn");
+      const moodSelect = document.getElementById("mood");
+      const keywordsInput = document.getElementById("keywords");
+      const crushNameInput = document.getElementById("crushName");
+      const resultDiv = document.getElementById("result");
+      const musicCheckbox = document.getElementById("musicCheckbox");
+      const bgMusic = document.getElementById("bgMusic");
+
+      const letters = {
+        sweet: (name, keywords) =>
+          `Hai ${name},\n\nAku cuma mau bilang kalau setiap kali aku mikirin kamu, rasanya hangat dan manis kayak gula di kopi. ${keywords} bikin aku makin jatuh hati setiap hari.\n\nSalam sayang! 💖`,
+        funny: (name, keywords) =>
+          `Hei ${name}!\n\nKalau kamu adalah wifi, aku pasti terus connect tanpa buffering. ${keywords} itu kayak sinyal kuat yang bikin aku selalu ingin dekat.\n\nSalam ngakak! 😂`,
+        nervous: (name, keywords) =>
+          `Halo ${name}...\n\nJujur, aku agak grogi nulis ini. ${keywords} bikin aku deg-degan nggak karuan. Tapi aku pengen kamu tahu kalau aku suka kamu, walau agak malu.\n\nSalam malu-malu! 😳`,
+        romantic: (name, keywords) =>
+          `Sayang ${name},\n\nDi setiap detik, aku selalu teringat kamu. ${keywords} itu adalah hal kecil yang membuat hatiku meleleh. Aku pengen kita bisa jalan bareng terus.\n\nSelalu milikmu, 💕`,
+        surprise: (name, keywords) =>
+          `Halo ${name} yang spesial,\n\nAku nggak nyangka bisa ketemu seseorang yang bikin hati berdebar kayak ini. ${keywords} adalah alasan aku selalu senyum tanpa alasan.\n\nSemoga hari kamu cerah! 🌟`,
+      };
+
+      generateBtn.addEventListener("click", () => {
+        const mood = moodSelect.value;
+        const keywords = keywordsInput.value
+          ? keywordsInput.value
+          : "Kamu itu selalu istimewa.";
+        const crushName = crushNameInput.value ? crushNameInput.value : "kamu";
+
+        const letter = letters[mood](crushName, keywords);
+        resultDiv.textContent = "";
+
+        let i = 0;
+        function typeWriter() {
+          if (i < letter.length) {
+            resultDiv.textContent += letter.charAt(i);
+            i++;
+            setTimeout(typeWriter, 30);
+          }
+        }
+        typeWriter();
+      });
+
+      musicCheckbox.addEventListener("change", () => {
+        if (musicCheckbox.checked) {
+          bgMusic.play();
+        } else {
+          bgMusic.pause();
+          bgMusic.currentTime = 0;
+        }
+      });
+
+      // Stars animation
+      const starsContainer = document.getElementById("stars");
+      function createStar() {
+        const star = document.createElement("div");
+        star.classList.add("star");
+        star.style.left = Math.random() * 100 + "vw";
+        star.style.top = "-10px";
+        star.style.animationDuration = 5 + Math.random() * 5 + "s";
+        starsContainer.appendChild(star);
+
+        setTimeout(() => {
+          star.remove();
+        }, 10000);
+      }
+
+      // Twinkling stars
+      for (let i = 0; i < 30; i++) {
+        const twinkle = document.createElement("div");
+        twinkle.classList.add("twinkle");
+        twinkle.style.left = Math.random() * 100 + "vw";
+        twinkle.style.top = Math.random() * 100 + "vh";
+        twinkle.style.animationDelay = (Math.random() * 3) + "s";
+        starsContainer.appendChild(twinkle);
+      }
+
+      setInterval(createStar, 500);
+    </script>
+  </body>
+</html>
