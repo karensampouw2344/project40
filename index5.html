@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crush Compatibility Tracker 💘</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Quicksand:wght@500&display=swap');
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(135deg, #fceefb, #e0f7fa);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      color: #ff6ac1;
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+      text-shadow: 1px 1px #fff;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      padding: 2rem;
+      border-radius: 2rem;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 600px;
+      border: 2px dashed #ffd6f6;
+    }
+
+    label {
+      display: block;
+      margin: 1rem 0 0.2rem;
+      font-weight: 600;
+      color: #7a558a;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.7rem;
+      border-radius: 1rem;
+      border: 1px solid #ddd;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      background-color: #fff0fa;
+    }
+
+    button {
+      background-color: #ff91c2;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.2rem;
+      font-size: 1rem;
+      border-radius: 2rem;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #ff6ac1;
+    }
+
+    .result {
+      box-sizing: border-box;
+      margin-top: 2rem;
+      background: #fff9fd;
+      padding: 1.5rem 2rem;
+      border-radius: 1.5rem;
+      text-align: center;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+      border: 1px solid #ffe3f2;
+    }
+
+    .result h2 {
+      margin-top: 0;
+      color: #d14d92;
+      margin-bottom: 1rem;
+    }
+
+    .result p {
+      margin: 0;
+      line-height: 1.6;
+      color: #5e4b63;
+    }
+  </style>
+</head>
+<body>
+  <h1>💖 Crush Compatibility Tracker</h1>
+  <div class="container">
+    <form id="compatibilityForm">
+      <label>Your Name</label>
+      <input type="text" id="yourName" required />
+
+      <label>Your Zodiak</label>
+      <select id="yourZodiak">
+        <option>Aries</option><option>Taurus</option><option>Gemini</option>
+        <option>Cancer</option><option>Leo</option><option>Virgo</option>
+        <option>Libra</option><option>Scorpio</option><option>Sagittarius</option>
+        <option>Capricorn</option><option>Aquarius</option><option>Pisces</option>
+      </select>
+
+      <label>Your Crush's Name</label>
+      <input type="text" id="crushName" required />
+
+      <label>Your Crush's Zodiak</label>
+      <select id="crushZodiak">
+        <option>Aries</option><option>Taurus</option><option>Gemini</option>
+        <option>Cancer</option><option>Leo</option><option>Virgo</option>
+        <option>Libra</option><option>Scorpio</option><option>Sagittarius</option>
+        <option>Capricorn</option><option>Aquarius</option><option>Pisces</option>
+      </select>
+
+      <label>Last Interaction</label>
+      <select id="interaction">
+        <option>Chat</option>
+        <option>Ngobrol langsung</option>
+        <option>Liat-liatan aja</option>
+        <option>Belum pernah interaksi</option>
+      </select>
+
+      <button type="submit">💘 Hitung Kecocokan!</button>
+    </form>
+
+    <div class="result" id="resultBox" style="display: none">
+      <h2>✨ Hasil Cinta ✨</h2>
+      <p id="resultText"></p>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('compatibilityForm');
+    const resultBox = document.getElementById('resultBox');
+    const resultText = document.getElementById('resultText');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const yourName = document.getElementById('yourName').value;
+      const crushName = document.getElementById('crushName').value;
+      const yourZodiak = document.getElementById('yourZodiak').value;
+      const crushZodiak = document.getElementById('crushZodiak').value;
+      const interaction = document.getElementById('interaction').value;
+
+      const matchScore = Math.floor(Math.random() * 41) + 60;
+
+      let advice = '';
+      if (interaction === 'Chat') {
+        advice = 'Kamu udah punya langkah awal! Ayo coba ajak ngobrol lebih dalam ✨';
+      } else if (interaction === 'Ngobrol langsung') {
+        advice = 'Bagus banget! Coba ajak kerja kelompok atau duduk bareng 💞';
+      } else if (interaction === 'Liat-liatan aja') {
+        advice = 'Saatnya mulai sapa dia minggu ini! Siapa tahu dia juga menunggu 😳';
+      } else {
+        advice = 'Manifest dulu ya! Cari momen yang pas untuk mulai interaksi ✨';
+      }
+
+      resultText.innerHTML = `
+        💕 <strong>${yourName}</strong> & <strong>${crushName}</strong><br/>
+        Zodiak cocok: ${yourZodiak} x ${crushZodiak}<br/>
+        💌 Kecocokan: <strong>${matchScore}%</strong><br/><br/>
+        ${advice}<br/><br/>
+        🌌 <em>Semesta mencatat harapanmu...</em>
+      `;
+
+      resultBox.style.display = 'block';
+    });
+  </script>
+</body>
+</html>
+

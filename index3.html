@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Buku Mewarnai Cinta 💖</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(to right, #ffd1dc, #ffe6f0);
+      padding: 2rem;
+      color: #880e4f;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #e91e63;
+      margin-bottom: 1rem;
+      text-shadow: 1px 1px white;
+    }
+
+    canvas {
+      background-color: #fff0f5;
+      border: 4px dashed #f8bbd0;
+      border-radius: 20px;
+      cursor: crosshair;
+      touch-action: none;
+    }
+
+    .toolbar {
+      margin: 1.5rem 0;
+    }
+
+    .toolbar button, .toolbar input[type="color"], .sticker-btn {
+      margin: 0.5rem;
+      padding: 0.8rem 1.2rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      background-color: #ff69b4;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .toolbar button:hover,
+    .sticker-btn:hover {
+      background-color: #d81b60;
+    }
+
+    .sticker-btn {
+      font-size: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🌈 Buku Mewarnai Cinta 🌈</h1>
+
+  <div class="toolbar">
+    <input type="color" id="colorPicker" value="#ff69b4">
+    <button onclick="clearCanvas()">🧼 Clear Canvas</button>
+    <button onclick="saveCanvas()">📸 Save Gambar</button>
+  </div>
+
+  <div class="toolbar">
+    <span>🧸 Tambahkan Stiker:</span>
+    <button class="sticker-btn" onclick="addSticker('💘')">💘</button>
+    <button class="sticker-btn" onclick="addSticker('🌸')">🌸</button>
+    <button class="sticker-btn" onclick="addSticker('⭐')">⭐</button>
+    <button class="sticker-btn" onclick="addSticker('🐻')">🐻</button>
+  </div>
+
+  <canvas id="coloringCanvas" width="400" height="400"></canvas>
+
+  <script>
+    const canvas = document.getElementById("coloringCanvas");
+    const ctx = canvas.getContext("2d");
+    let painting = false;
+    let selectedColor = document.getElementById("colorPicker").value;
+
+    function drawHeart() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#ffe4ec";
+      ctx.beginPath();
+      ctx.moveTo(200, 200);
+      ctx.bezierCurveTo(150, 150, 100, 150, 100, 200);
+      ctx.bezierCurveTo(100, 250, 200, 350, 200, 300);
+      ctx.bezierCurveTo(200, 350, 300, 250, 300, 200);
+      ctx.bezierCurveTo(300, 150, 250, 150, 200, 200);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    function clearCanvas() {
+      drawHeart();
+    }
+
+    function saveCanvas() {
+      const link = document.createElement('a');
+      link.download = 'gambar-cinta.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    }
+
+    function addSticker(emoji) {
+      canvas.addEventListener('click', function placeSticker(e) {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        ctx.font = '30px serif';
+        ctx.fillText(emoji, x - 15, y + 10);
+        canvas.removeEventListener('click', placeSticker);
+      });
+    }
+
+    function startPosition(e) {
+      painting = true;
+      draw(e);
+    }
+
+    function endPosition() {
+      painting = false;
+      ctx.beginPath();
+    }
+
+    function draw(e) {
+      if (!painting) return;
+      const rect = canvas.getBoundingClientRect();
+      const x = (e.clientX || e.touches[0].clientX) - rect.left;
+      const y = (e.clientY || e.touches[0].clientY) - rect.top;
+
+      ctx.lineWidth = 4;
+      ctx.lineCap = "round";
+      ctx.strokeStyle = selectedColor;
+
+      ctx.lineTo(x, y);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+    }
+
+    // Mouse
+    canvas.addEventListener("mousedown", startPosition);
+    canvas.addEventListener("mouseup", endPosition);
+    canvas.addEventListener("mousemove", draw);
+
+    // Touch
+    canvas.addEventListener("touchstart", (e) => startPosition(e));
+    canvas.addEventListener("touchend", endPosition);
+    canvas.addEventListener("touchmove", (e) => {
+      e.preventDefault();
+      draw(e);
+    });
+
+    document.getElementById("colorPicker").addEventListener("change", function () {
+      selectedColor = this.value;
+    });
+
+    drawHeart();
+  </script>
+
+</body>
+</html>

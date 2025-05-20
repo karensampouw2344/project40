@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌸 Sweet & Cute Website 🌸</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to right, #f8d7ff, #f1e0f1);
+      margin: 0;
+      padding: 0;
+      color: #555;
+    }
+
+    h1, h2, p {
+      text-align: center;
+      color: #ff80ab;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-top: 2rem;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-top: 1.5rem;
+      color: #f06292;
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: #ff4c75;
+      line-height: 1.6;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .card {
+      background-color: #fff;
+      width: 90%;
+      max-width: 600px;
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    .card img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      margin-bottom: 1.5rem;
+    }
+
+    .button {
+      background-color: #ff80ab;
+      color: white;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      border-radius: 25px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s;
+      margin-top: 1.5rem;
+    }
+
+    .button:hover {
+      background-color: #f06292;
+      transform: scale(1.05);
+    }
+
+    .button:active {
+      transform: scale(0.95);
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #ff80ab;
+      text-align: center;
+      padding: 1rem;
+      color: white;
+    }
+
+    .footer p {
+      margin: 0;
+    }
+
+    .card .cta {
+      font-size: 1.1rem;
+      color: #ff4c75;
+      font-style: italic;
+    }
+
+    .quote-section, .coloring-section, .poll-section {
+      background: #fff;
+      width: 90%;
+      max-width: 600px;
+      border-radius: 15px;
+      padding: 2rem;
+      margin-top: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .quote-section p, .poll-section p {
+      color: #f06292;
+    }
+
+    .quote-section blockquote {
+      font-size: 1.5rem;
+      color: #ff80ab;
+      font-style: italic;
+      margin: 1rem 0;
+      border-left: 5px solid #ff80ab;
+      padding-left: 1rem;
+    }
+
+    .poll-section input {
+      margin: 10px;
+      cursor: pointer;
+    }
+
+    .poll-section button {
+      background-color: #ff80ab;
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 25px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .poll-section button:hover {
+      background-color: #f06292;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      .card, .quote-section, .coloring-section, .poll-section {
+        padding: 1.5rem;
+      }
+
+      .button {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>🌸 Welcome to My Cute Website! 🌸</h1>
+    <h2>Filled with all things aesthetic and sweet! 💖</h2>
+
+    <div class="card">
+      <img src="cute.jpg" alt="Cute image">
+      <h2>You're Loved! 💘</h2>
+      <p>Here on this website, you're surrounded by love, pastel colors, and cute vibes! ✨ Every visit is a reminder that you're amazing and deserve all the positivity in the world. 🌷</p>
+      <p class="cta">Remember: Always stay positive and spread kindness like confetti! 🎉 Your energy is contagious and your smile makes the world a brighter place. 🌟</p>
+      <button class="button" onclick="alert('Sending you a virtual hug! 🤗')">Send a Virtual Hug</button>
+    </div>
+
+    <!-- Cute Quotes Section -->
+    <div class="quote-section">
+      <h2>🌸 Cute Love Quotes 💖</h2>
+      <blockquote>"You are my sun, my moon, and all my stars." ✨</blockquote>
+      <blockquote>"Love is not about how many days, months, or years you’ve been together. Love is about how much you love each other every single day." 💕</blockquote>
+      <blockquote>"Together is a wonderful place to be." 💑</blockquote>
+    </div>
+
+    <!-- Coloring Section -->
+    <div class="coloring-section">
+      <h2>🎨 Color Your Love 💖</h2>
+      <p>Get creative and color this cute love heart!</p>
+      <canvas id="coloringCanvas" width="400" height="400" style="border: 2px solid #ff80ab;"></canvas>
+      <button class="button" onclick="clearCanvas()">Clear Canvas</button>
+    </div>
+
+    <!-- Love Poll Section -->
+    <div class="poll-section">
+      <h2>💖 Interactive Love Poll 💘</h2>
+      <p>What's your idea of the perfect date? 🌹</p>
+      <form id="pollForm">
+        <label><input type="radio" name="date" value="Romantic dinner under the stars"> Romantic dinner under the stars 🌌</label><br>
+        <label><input type="radio" name="date" value="Beach picnic at sunset"> Beach picnic at sunset 🌅</label><br>
+        <label><input type="radio" name="date" value="Movie night with snacks"> Movie night with snacks 🍿</label><br>
+        <label><input type="radio" name="date" value="Exploring a cute town"> Exploring a cute town 🏙️</label><br>
+        <button type="button" class="button" onclick="submitPoll()">Submit Vote</button>
+      </form>
+      <div id="pollResult"></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>&#169; 2025 Cute Vibes Studio 💖 | All rights reserved</p>
+  </div>
+
+  <!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Buku Mewarnai Cinta 💖</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(to right, #ffd1dc, #ffe6f0);
+      padding: 2rem;
+      color: #880e4f;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #e91e63;
+      margin-bottom: 1rem;
+      text-shadow: 1px 1px white;
+    }
+
+    canvas {
+      background-color: #fff0f5;
+      border: 4px dashed #f8bbd0;
+      border-radius: 20px;
+      cursor: crosshair;
+    }
+
+    .toolbar {
+      margin: 1.5rem 0;
+    }
+
+    .toolbar button, .toolbar input[type="color"] {
+      margin: 0.5rem;
+      padding: 0.8rem 1.2rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      background-color: #ff69b4;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .toolbar button:hover {
+      background-color: #d81b60;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🌈 Buku Mewarnai Cinta 🌈</h1>
+
+  <div class="toolbar">
+    <input type="color" id="colorPicker" value="#ff69b4">
+    <button onclick="clearCanvas()">🧼 Clear Canvas</button>
+  </div>
+
+  <canvas id="coloringCanvas" width="400" height="400"></canvas>
+
+  <script>
+    const canvas = document.getElementById("coloringCanvas");
+    const ctx = canvas.getContext("2d");
+    let painting = false;
+    let selectedColor = document.getElementById("colorPicker").value;
+
+    function drawHeart() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#ffe4ec";
+      ctx.beginPath();
+      ctx.moveTo(200, 200);
+      ctx.bezierCurveTo(150, 150, 100, 150, 100, 200);
+      ctx.bezierCurveTo(100, 250, 200, 350, 200, 300);
+      ctx.bezierCurveTo(200, 350, 300, 250, 300, 200);
+      ctx.bezierCurveTo(300, 150, 250, 150, 200, 200);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawHeart();
+    }
+
+    function startPosition(e) {
+      painting = true;
+      draw(e);
+    }
+
+    function endPosition() {
+      painting = false;
+      ctx.beginPath();
+    }
+
+    function draw(e) {
+      if (!painting) return;
+
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      ctx.lineWidth = 4;
+      ctx.lineCap = "round";
+      ctx.strokeStyle = selectedColor;
+
+      ctx.lineTo(x, y);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+    }
+
+    // Event listeners
+    canvas.addEventListener("mousedown", startPosition);
+    canvas.addEventListener("mouseup", endPosition);
+    canvas.addEventListener("mousemove", draw);
+    document.getElementById("colorPicker").addEventListener("change", function() {
+      selectedColor = this.value;
+    });
+
+    // Initial draw
+    drawHeart();
+  </script>
+
+</body>
+</html>
+
+
+</body>
+</html>

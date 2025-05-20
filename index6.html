@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Crush Compatibility Tracker Plus 💖</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f3e8ff;
+    color: #5a3e85;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 1rem;
+  }
+  .tracker {
+    background: #fff;
+    padding: 2rem 3rem;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(90, 62, 133, 0.25);
+    width: 360px;
+    text-align: center;
+    transition: box-shadow 0.3s ease;
+  }
+  .tracker:hover {
+    box-shadow: 0 8px 30px rgba(90, 62, 133, 0.4);
+  }
+  h2 {
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .input-wrapper {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  input[type="text"], select {
+    padding: 10px;
+    width: 45%;
+    border: 2px solid #a489c4;
+    border-radius: 8px;
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+  }
+  input[type="text"]:focus, select:focus {
+    outline: none;
+    border-color: #7a5ebc;
+  }
+  button {
+    background-color: #a489c4;
+    border: none;
+    color: white;
+    padding: 12px 25px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.15s ease;
+    width: 85%;
+    margin-top: 1rem;
+  }
+  button:hover {
+    background-color: #7a5ebc;
+    transform: scale(1.05);
+  }
+  .hasil {
+    margin-top: 1.8rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    min-height: 70px;
+    color: #5a3e85;
+    white-space: pre-wrap;
+  }
+  .quote {
+    margin-top: 1rem;
+    font-style: italic;
+    font-weight: 400;
+    color: #9c84b8;
+    font-size: 0.9rem;
+  }
+</style>
+</head>
+<body>
+
+<div class="tracker">
+  <h2>Pengukur Kecocokan Crush 💖</h2>
+  <div class="input-wrapper">
+    <input id="nama1" type="text" placeholder="Namamu" />
+    <input id="nama2" type="text" placeholder="Nama crush" />
+    <select id="zodiak1">
+      <option value="" disabled selected>Pilih zodiak kamu</option>
+      <option>Aries</option><option>Taurus</option><option>Gemini</option><option>Cancer</option>
+      <option>Leo</option><option>Virgo</option><option>Libra</option><option>Scorpio</option>
+      <option>Sagittarius</option><option>Capricorn</option><option>Aquarius</option><option>Pisces</option>
+    </select>
+    <select id="zodiak2">
+      <option value="" disabled selected>Pilih zodiak crush</option>
+      <option>Aries</option><option>Taurus</option><option>Gemini</option><option>Cancer</option>
+      <option>Leo</option><option>Virgo</option><option>Libra</option><option>Scorpio</option>
+      <option>Sagittarius</option><option>Capricorn</option><option>Aquarius</option><option>Pisces</option>
+    </select>
+    <select id="mood">
+      <option value="" disabled selected>Pilih mood kamu sekarang</option>
+      <option>Senang</option><option>Deg-degan</option><option>Galau</option>
+      <option>Semangat</option><option>Biasa aja</option>
+    </select>
+  </div>
+  <button onclick="hitungKecocokan()">Cek Kecocokan</button>
+  <div class="hasil" id="hasil"></div>
+  <div class="quote" id="quote"></div>
+</div>
+
+<script>
+  const quotes = [
+    "“Cinta itu bukan saling memandang, tapi bersama-sama melihat ke arah yang sama.” — Antoine de Saint-Exupéry",
+    "“Jatuh cinta itu mudah, tapi mempertahankan cinta itu seni.”",
+    "“Kadang yang kita butuhkan hanyalah sedikit keberanian untuk mengatakan 'aku suka kamu'.”",
+    "“Setiap hati memiliki waktu yang tepat untuk bertemu.”",
+    "“Jangan takut gagal dalam cinta, karena itu bagian dari perjalanan.”",
+    "“Kamu adalah alasan mengapa aku tersenyum tanpa alasan.”"
+  ];
+
+  const zodiakCompat = {
+    Aries: ['Leo', 'Sagittarius', 'Gemini', 'Aquarius'],
+    Taurus: ['Virgo', 'Capricorn', 'Cancer', 'Pisces'],
+    Gemini: ['Libra', 'Aquarius', 'Aries', 'Leo'],
+    Cancer: ['Scorpio', 'Pisces', 'Taurus', 'Virgo'],
+    Leo: ['Aries', 'Sagittarius', 'Gemini', 'Libra'],
+    Virgo: ['Taurus', 'Capricorn', 'Cancer', 'Scorpio'],
+    Libra: ['Gemini', 'Aquarius', 'Leo', 'Sagittarius'],
+    Scorpio: ['Cancer', 'Pisces', 'Virgo', 'Capricorn'],
+    Sagittarius: ['Aries', 'Leo', 'Libra', 'Aquarius'],
+    Capricorn: ['Taurus', 'Virgo', 'Scorpio', 'Pisces'],
+    Aquarius: ['Gemini', 'Libra', 'Aries', 'Sagittarius'],
+    Pisces: ['Cancer', 'Scorpio', 'Taurus', 'Capricorn'],
+  };
+
+  function hitungKecocokan() {
+    const nama1 = document.getElementById('nama1').value.trim();
+    const nama2 = document.getElementById('nama2').value.trim();
+    const zodiak1 = document.getElementById('zodiak1').value;
+    const zodiak2 = document.getElementById('zodiak2').value;
+    const mood = document.getElementById('mood').value;
+    const hasilDiv = document.getElementById('hasil');
+    const quoteDiv = document.getElementById('quote');
+
+    if (!nama1 || !nama2 || !zodiak1 || !zodiak2 || !mood) {
+      hasilDiv.textContent = 'Tolong isi semua kolom ya! ❤️';
+      hasilDiv.style.color = 'red';
+      quoteDiv.textContent = '';
+      return;
+    }
+
+    let jumlah = 0;
+    const gabungan = (nama1 + nama2).toLowerCase();
+    for (let i = 0; i < gabungan.length; i++) {
+      jumlah += gabungan.charCodeAt(i);
+    }
+    let kecocokan = jumlah % 101;
+
+    if (zodiakCompat[zodiak1].includes(zodiak2)) {
+      kecocokan += 15;
+      if (kecocokan > 100) kecocokan = 100;
+    }
+
+    let motivasi = '';
+    switch(mood) {
+      case 'Senang':
+        motivasi = 'Kamu lagi happy, jadi semangat terus ya! 🌞';
+        break;
+      case 'Deg-degan':
+        motivasi = 'Santai aja, biarkan hati yang bicara 💓';
+        break;
+      case 'Galau':
+        motivasi = 'Ingat, setiap galau pasti berlalu. Keep hope alive! 🌈';
+        break;
+      case 'Semangat':
+        motivasi = 'Semangatmu itu inspirasi buat dia! 💪';
+        break;
+      case 'Biasa aja':
+        motivasi = 'Santai dan nikmati prosesnya ya ❤️';
+        break;
+    }
+
+    let pesan = '';
+    if (kecocokan > 90) {
+      pesan = `🔥🔥 Wah! Kamu dan ${nama2} cocok banget, kecocokan ${kecocokan}%!`;
+    } else if (kecocokan > 70) {
+      pesan = `💘 Kamu dan ${nama2} punya potensi besar, kecocokan ${kecocokan}%!`;
+    } else if (kecocokan > 50) {
+      pesan = `✨ Masih bisa diperjuangkan, kecocokan ${kecocokan}%`;
+    } else {
+      pesan = `Hmm, kecocokannya ${kecocokan}%, tapi siapa tahu love finds a way? 💭`;
+    }
+
+    hasilDiv.style.color = '#5a3e85';
+    hasilDiv.textContent = pesan + "\n" + motivasi;
+    quoteDiv.textContent = quotes[Math.floor(Math.random() * quotes.length)];
+  }
+</script>
+
+</body>
+</html>
